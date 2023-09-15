@@ -1,0 +1,67 @@
+#slimfood-app {
+	.afzaliwp-slimfood-modal {
+		position: fixed;
+		z-index: 9999;
+		background-color: #ffffff;
+		padding: 20px;
+		border-radius: 10px;
+		box-shadow: 0 0 0px 10000px #000000b3;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+
+		&.show {
+			display: block;
+		}
+
+		&.hide {
+			display: none !important;
+		}
+
+		.head {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 10px;
+			padding-bottom: 10px;
+			border-bottom: 1px solid #afafaf;
+
+			button {
+				padding: 2px 8px;
+				font-size: 20px;
+				color: #ffffff;
+				background-color: #ff0000;
+				border: none;
+				border-radius: 4px;
+			}
+
+			.title {
+				font-size: 25px;
+				text-align: center;
+				width: 100%;
+				margin: 0;
+			}
+		}
+
+		.body {
+			font-size: 22px;
+
+			.repay-button {
+				display: block;
+				text-align: center;
+				margin: 20px 0 0 0;
+				background-color: $darkGreen;
+				color: #ffffff;
+				border: 1px solid $darkGreen;
+				border-radius: 10px;
+				padding: 7px;
+
+				&:hover {
+					background-color: #ffffff;
+					color: $darkGreen;
+				}
+			}
+		}
+	}
+}

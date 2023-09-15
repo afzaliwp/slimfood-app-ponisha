@@ -1,0 +1,250 @@
+.slimfood-wrapper {
+	.main {
+		.items-wrapper {
+			width: 100%;
+
+			.step {
+				display: none;
+				width: 100%;
+			}
+		}
+
+		.navigators-wrapper {
+			position: absolute;
+			bottom: 10px;
+			display: flex;
+			gap: 10px;
+			z-index: 11;
+			width: 80%;
+			justify-content: flex-end;
+
+			button.step-navigator {
+				padding: 5px;
+				font-size: 16px;
+				border: none;
+				border-radius: 8px;
+				color: #000000;
+				background-color: transparent;
+				cursor: pointer;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 5px;
+
+				img {
+					width: 55px;
+				}
+			}
+		}
+
+		.choose-address {
+			display: flex;
+			width: 100%;
+			justify-content: space-evenly;
+
+			button {
+				padding: 80px 40px;
+				font-size: 30px;
+				width: 250px;
+				color: #ffffff;
+				background-color: $darkGreen;
+				border: 1px solid $darkGreen;
+
+				&:hover {
+					color: $darkGreen;
+					background-color: #ffffff;
+				}
+			}
+		}
+
+		#address-form {
+			display: flex;
+			flex-direction: column;
+			width: 70%;
+			position: relative;
+
+			label {
+				padding: 6px 15px;
+				width: fit-content;
+				margin-top: 20px;
+				margin-bottom: 10px;
+				text-align: center;
+				border-radius: 8px;
+				background: $green;
+				color: #fff;
+				font-size: 18px;
+				font-weight: 600;
+			}
+
+			input {
+				padding: 20px 10px;
+				border-radius: 10px;
+				border: none;
+				font-size: 25px;
+				color: #ffffff;
+				background: transparent;
+				outline: none;
+				width: 410px;
+				position: absolute;
+				bottom: 52px;
+				right: 30%;
+			}
+		}
+
+		.choose-time {
+			display: flex;
+			width: 100%;
+			justify-content: center;
+			gap: 50px;
+
+			button {
+				padding: 20px 40px;
+				border: none;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 30px;
+
+				&[disabled] {
+					opacity: 0.5;
+					cursor: not-allowed;
+				}
+
+				&:hover {
+					background: #ffffff !important;
+					color: $darkGreen;
+				}
+
+			}
+		}
+
+		.invoice {
+			display: flex;
+			width: 100%;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 5px;
+			font-size: 20px;
+
+			h3 {
+				margin: 2px 0;
+				border-bottom: 1px solid $darkGreen;
+				width: 250px;
+			}
+
+			.item-invoice {
+				width: 400px;
+
+				&.first {
+					border-bottom: 1px solid $darkGreen;
+				}
+
+				.product {
+					width: 100%;
+					display: flex;
+					align-items: center;
+					flex-direction: row;
+					justify-content: space-between;
+
+					> div {
+						display: flex;
+						gap: 12px;
+						width: 160px;
+						justify-content: space-between;
+					}
+				}
+
+				&.shipping {
+					display: flex;
+					justify-content: space-between;
+					border-bottom: 1px solid $darkGreen;
+					font-weight: 400;
+				}
+
+				&.total {
+					display: flex;
+					justify-content: space-between;
+				}
+
+				p {
+					font-size: 18px;
+					font-weight: 600;
+					margin-bottom: 5px;
+					margin-top: 0;
+				}
+			}
+		}
+
+		.step-4-parent {
+			.finish-button {
+				&.next-step {
+					position: absolute;
+					right: 70px;
+					bottom: 70px;
+					z-index: 10;
+
+					button {
+						padding: 15px 30px;
+						font-size: 40px;
+						font-weight: 700;
+						color: #ffffff;
+						background-color: $orange;
+						border: 1px solid $orange;
+						border-radius: 10px;
+
+						&:hover {
+							color: $orange;
+							background-color: #ffffff;
+						}
+					}
+				}
+			}
+		}
+
+		.address-form-step {
+			align-items: center;
+			justify-content: center;
+			align-content: center;
+		}
+
+		.step-6-parent {
+			align-items: center;
+			justify-content: center;
+
+			.title {
+				width: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				text-align: center;
+				background: $green;
+
+
+				h4 {
+					color: #ffffff;
+					font-size: 35px;
+				}
+			}
+
+			button {
+				background-color: #ffffff;
+			}
+		}
+
+		.step-7-parent {
+			justify-content: flex-start;
+
+			#pay-button {
+				padding: 18px 43px;
+				font-size: 23px;
+				border: none;
+				background: $orange;
+				color: #ffffff;
+				border-radius: 8px;
+				margin-top: 40px;
+			}
+		}
+	}
+}

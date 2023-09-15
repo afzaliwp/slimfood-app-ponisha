@@ -1,0 +1,11 @@
+$orange: #ff6100;
+$green: #a0d13a;
+$darkGreen: #485d1f;
+$gray: #ad9f8c;
+
+#slimfood-app {
+	button, a, input[type=submit] {
+		transition: all 0.3s ease;
+		cursor: pointer;
+	}
+}
