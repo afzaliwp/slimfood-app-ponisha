@@ -3,7 +3,8 @@
 		background-image: url("../images/start-bg.png");
 		background-color: #ffffff;
 		background-repeat: no-repeat;
-		background-size: cover;
+		background-size: contain;
+		background-position: center;
 		display: flex;
 		position: absolute;
 		inset: 0;
