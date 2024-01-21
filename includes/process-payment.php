@@ -59,7 +59,7 @@ class Process_Payment {
 				'address_2'  => 'محل سفارش: ' . $cart[ 'place' ][ 'address' ],
 				'phone'      => $cart[ 'phone' ],
 			];
-			if ( !isset( $cart['address'] ) ) {
+			if ( isset( $cart['address'] ) ) {
 				$billing_info['address_1']  = 'دلخواه: ' . $cart[ 'address' ];
 			}
 			$order->set_address( $billing_info, 'billing' );
