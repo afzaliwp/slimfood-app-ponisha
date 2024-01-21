@@ -37,10 +37,15 @@ class Process_Payment {
 	public function create_order() {
 		// Check if cart data is set
 		if ( isset( $_POST[ 'cart' ] ) ) {
-			$cart = $_POST[ 'cart' ];
+			$cart = json_decode( stripslashes( $_POST[ 'cart' ] ), true );
 
 			// Create new order
 			$order = wc_create_order();
+
+			// Check if file is uploaded
+			if ( isset( $_FILES[ 'invoiceImg' ] ) ) {
+				$this->upload_image( $order->get_id(), $_FILES[ 'invoiceImg' ] );
+			}
 
 			// Loop through cart items and add them to the order
 			foreach ( $cart[ 'products' ] as $product_id => $product_data ) {
@@ -50,13 +55,16 @@ class Process_Payment {
 			// Set billing info
 			$billing_info = [
 				'first_name' => $cart[ 'place' ][ 'name' ],
-				'address_1'  => 'دلخواه: ' . $cart[ 'address' ],
+				'address_1'  => '',
 				'address_2'  => 'محل سفارش: ' . $cart[ 'place' ][ 'address' ],
 				'phone'      => $cart[ 'phone' ],
 			];
+			if ( !isset( $cart['address'] ) ) {
+				$billing_info['address_1']  = 'دلخواه: ' . $cart[ 'address' ];
+			}
 			$order->set_address( $billing_info, 'billing' );
 
-			if ( 'false' === $cart[ 'isInPlace' ] ) {
+			if ( 'false' === $cart[ 'isInPlace' ] || empty( $cart[ 'isInPlace' ] ) ) {
 				// Add shipping method
 				$shipping_rate = new \WC_Shipping_Rate(
 					'flat_rate_shipping', // Shipping rate id
@@ -65,8 +73,8 @@ class Process_Payment {
 					[], // Taxes
 					'flat_rate' // Shipping method id
 				);
-				$order->add_shipping( $shipping_rate );
 
+				$order->add_shipping( $shipping_rate );
 			}
 
 			// Set payment method to wc_zpal
@@ -92,5 +100,18 @@ class Process_Payment {
 		}
 
 		die();
+	}
+
+	private function upload_image( $order_id, $file ) {
+		$upload_dir  = wp_upload_dir();
+		$upload_path = $upload_dir[ 'basedir' ] . '/order-invoices/' . $order_id . '/';
+
+		// Create the folder if it doesn't exist
+		if ( ! file_exists( $upload_path ) ) {
+			mkdir( $upload_path, 0755, true );
+		}
+
+		// Move the uploaded file
+		move_uploaded_file( $file[ 'tmp_name' ], $upload_path . 'order.jpg' );
 	}
 }

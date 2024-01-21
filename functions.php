@@ -4,9 +4,10 @@ function afzaliwp_slimfood_autoload( $class_name ) {
 		return;
 	}
 
-	$file = str_replace( [ '_', 'AfzaliWP\SlimFood', '\\' ], [ '-', __DIR__, '/' ], $class_name ) . '.php';
+	$class_name = strtolower( $class_name );
+	$file = str_replace( [ '_', strtolower( 'AfzaliWP\SlimFood' ), '\\' ], [ '-', __DIR__, '/' ], $class_name ) . '.php';
 
-	require_once strtolower( $file );
+	require_once $file;
 }
 
 function slimfood_get_image($name, $echo = true) {

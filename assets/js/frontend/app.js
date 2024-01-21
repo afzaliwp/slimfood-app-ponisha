@@ -4,6 +4,7 @@ import Chart from 'chart.js/auto';
 import Toastify from 'toastify-js';
 import Cart from './cart.js';
 import * as dataLabels from 'chartjs-plugin-datalabels';
+import html2canvas from 'html2canvas';
 
 Chart.register(dataLabels.default); // Register the plugin
 
@@ -41,7 +42,11 @@ class App {
 		fat: 0,
 	};
 
+	//Form data
+	formData;
+
 	constructor() {
+		window.xx = html2canvas;
 		this.app = document.getElementById(this.selectors.appWrapper);
 
 		if (!this.app) {
@@ -148,7 +153,7 @@ class App {
 			type: 'pie',
 			data: {
 				datasets: [{
-					label: '%',
+					label: 'Gr',
 					data: [0, 0, 0],
 					backgroundColor: [
 						'#ff0000',
@@ -167,12 +172,16 @@ class App {
 						color: '#ffffff',
 						anchor: 'center',
 						align: 'right',
+						clamp: true,
+						display: 'auto',
 						font: {
-							size: 17,
+							size: 14,
 							weight: 500,
 						},
-						formatter: (value) => {
-							return Math.round(value) + '%';
+						formatter: (value, context) => {
+							let sum = context.dataset.data.reduce((a, b) => a + b, 0);
+							let percentage = (value / sum * 100).toFixed(0);
+							return Math.round(value) + 'Gr \n' + Math.round(Number(percentage)) + '%';
 						}
 					}
 				}
@@ -180,8 +189,7 @@ class App {
 		});
 
 		const updateChart = () => {
-			const total = this.nutrition.protein + this.nutrition.carbohydrate + this.nutrition.fat;
-			nutritionChart.data.datasets[0].data = [(this.nutrition.protein / total) * 100, (this.nutrition.carbohydrate / total) * 100, (this.nutrition.fat / total) * 100];
+			nutritionChart.data.datasets[0].data = [this.nutrition.protein, this.nutrition.carbohydrate, this.nutrition.fat];
 			nutritionChart.update();
 		};
 
@@ -331,12 +339,14 @@ class App {
 	}
 
 	checkTime() {
-		let buttons = document.querySelectorAll('.step-6-parent .step-navigator.next');
-		let currentTime = new Date();
+		const buttons = document.querySelectorAll('.step-6-parent .step-navigator.next');
+		const currentTime = new Date();
+
 		buttons.forEach(function (button) {
-			let startTime = parseInt(button.getAttribute('data-start-time'));
-			let timeDiff = startTime - currentTime.getHours() - (currentTime.getMinutes() / 60);
-			if (timeDiff <= 0 || timeDiff > 1.5) {
+			const startTime = parseInt(button.getAttribute('data-start-time'));
+			const currentHours = currentTime.getHours() + currentTime.getMinutes() / 60;
+			const timeDiff = startTime - currentHours;
+			if (timeDiff >= 1.5) {
 				button.classList.add('active');
 				button.disabled = false;
 			} else {
@@ -348,7 +358,7 @@ class App {
 
 	handleTimeSelect() {
 		this.checkTime();
-		setInterval(this.checkTime, 30000);
+		setInterval(this.checkTime.bind(this), 30000);
 	}
 
 	handlePayment() {
@@ -391,6 +401,16 @@ class App {
 
 		const self = this;
 		payButton.addEventListener('click', () => {
+
+			let formData = new FormData();
+			html2canvas(document.querySelector('#slimfood-app')).then(canvas => {
+				canvas.toBlob(blob => {
+					formData.append('invoiceImg', blob);
+				});
+			});
+
+			this.formData = formData;
+
 			self.app.classList.add('loading');
 			const cartData = this.cart.getCart();
 
@@ -437,15 +457,17 @@ class App {
 	goPaymentUrl() {
 		const self = this;
 
+		this.formData.append('action', 'afzaliwp_create_order');
+		this.formData.append('nonce', afzaliwpSfAJAX.nonce);
+		this.formData.append('cart', JSON.stringify(this.cart.getCart()));
+
 		$.ajax({
 			url: afzaliwpSfAJAX.ajaxUrl,
 			type: 'post',
 			dataType: 'json',
-			data: {
-				action: 'afzaliwp_create_order',
-				nonce: afzaliwpSfAJAX.nonce,
-				cart: this.cart.getCart(),
-			},
+			data: this.formData,
+			processData: false,
+			contentType: false,
 			success: function (response) {
 				if (response.success) {
 					console.log('Order created successfully. Order ID: ' + response.data.order_id);
@@ -462,7 +484,7 @@ class App {
 				console.error(error);
 				self.toast('مشکلی پیش آمده است. لطفا مجدد تلاش کنید.', 'error');
 			},
-		});
+		}, 'image/jpeg');
 
 	}
 
