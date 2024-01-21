@@ -43,7 +43,7 @@
 			justify-content: space-evenly;
 
 			button {
-				padding: 80px 40px;
+				padding: 75px 35px;
 				font-size: 30px;
 				width: 250px;
 				color: #ffffff;
@@ -105,6 +105,8 @@
 				align-items: center;
 				justify-content: center;
 				gap: 30px;
+				font-size: 18px;
+				font-weight: 700;
 
 				&[disabled] {
 					opacity: 0.5;
@@ -134,7 +136,7 @@
 			}
 
 			.item-invoice {
-				width: 400px;
+				width: 550px;
 
 				&.first {
 					border-bottom: 1px solid $darkGreen;
@@ -150,7 +152,7 @@
 					> div {
 						display: flex;
 						gap: 12px;
-						width: 160px;
+						width: 185px;
 						justify-content: space-between;
 					}
 				}

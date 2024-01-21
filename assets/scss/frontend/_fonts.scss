@@ -1,0 +1,26 @@
+@font-face {
+	font-family: 'B Yekan';
+	src: url('../fonts/b-yekan/yekan.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+#slimfood-app {
+	font-family: 'B Yekan', sans-serif;
+
+	button {
+		font-family: 'B Yekan', sans-serif;
+
+		&.key {
+			font-family: sans-serif !important;
+		}
+	}
+
+	.phone {
+		font-family: sans-serif !important;
+	}
+}
+
+.toastify {
+	font-family: 'B Yekan', sans-serif !important;
+}
