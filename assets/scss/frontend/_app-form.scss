@@ -1,16 +1,15 @@
 .slimfood-wrapper {
 	direction: rtl;
+	width: 100%;
+	border: none;
+	border-radius: 0;
+	position: relative;
 	padding: 20px 20px 40px 20px;
 	display: flex;
 	justify-content: space-between;
 	gap: 4px;
 	overflow: hidden;
-	position: fixed;
-	inset: 0 0 0 0;
-	width: 100vw;
-	height: 100vh;
-	border: none;
-	border-radius: 0;
+	height: 640px;
 
 	* {
 		direction: rtl;
