@@ -3,7 +3,7 @@
  * Plugin Name:       AfzaliWP SlimFood App
  * Plugin URI:        https://afzaliwp.com
  * Description:       Slim Food app is a plugin to manage multiple gyms and food ordering.
- * Version:           1.1.10
+ * Version:           1.1.11
  * Author:            Mohammad Afzali
  * Author URI:        https://afzaliwp.com
  */
@@ -131,7 +131,7 @@ final class SlimFood {
 			define( 'AFZALIWP_SF_ASSETS_VERSION', time() );
 		} else {
 			define( 'AFZALIWP_SF_IS_LOCAL', false );
-			define( 'AFZALIWP_SF_ASSETS_VERSION', '1.1.10' );
+			define( 'AFZALIWP_SF_ASSETS_VERSION', '1.1.11' );
 		}
 	}
 }
