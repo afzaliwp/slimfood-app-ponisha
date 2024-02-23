@@ -77,7 +77,7 @@ class Process_Payment {
 				$order->add_shipping( $shipping_rate );
 			}
 
-			// Set payment method to wc_zpal
+			// Set payment method to wc_zpal (zarinpal)
 			$order->set_payment_method( 'wc_zpal' );
 
 			$redirect_url = home_url() . '/app/' . $cart[ 'place' ][ 'redirectPath' ];

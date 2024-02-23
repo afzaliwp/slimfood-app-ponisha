@@ -19,3 +19,15 @@ function slimfood_get_image($name, $echo = true) {
 
 	return $image_url;
 }
+
+function mylog($data, $other_data = '') {
+	error_log( PHP_EOL . '-----------------------------------' );
+	error_log( '-------------$data: .'. $other_data .'---------------' );
+	if ( is_array($data) || is_object($data) ) {
+		error_log( print_r($data, true) );
+	} else {
+		error_log($data);
+	}
+	error_log( '-----------------------------------' );
+	error_log( '-----------------------------------'.PHP_EOL );
+}

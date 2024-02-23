@@ -611,7 +611,7 @@ class Form_Data {
 
             <div class="navigators-wrapper">
 				<?php
-				echo $this->HTML_Generator->next_step( '.step-6-parent' );
+				echo $this->HTML_Generator->next_step( '.step-7-parent' );
 				echo $this->HTML_Generator->previous_step( '.step-5-parent' );
 				?>
             </div>

@@ -275,6 +275,14 @@ class App {
 				this.handleInvoice();
 			});
 		});
+
+		this.app.querySelectorAll('.address-form-step .next-step').forEach((button) => {
+			button.addEventListener('click', (e) => {
+
+				this.cart.setTime('بدون زمان');
+				this.handleInvoice();
+			});
+		});
 	}
 
 	handleInvoice() {
