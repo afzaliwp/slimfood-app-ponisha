@@ -46,7 +46,6 @@ class App {
 	formData;
 
 	constructor() {
-		window.xx = html2canvas;
 		this.app = document.getElementById(this.selectors.appWrapper);
 
 		if (!this.app) {
@@ -278,7 +277,8 @@ class App {
 
 		this.app.querySelectorAll('.address-form-step .next-step').forEach((button) => {
 			button.addEventListener('click', (e) => {
-
+				this.cart.setIsInPlace( false );
+				this.cart.setAddress( this.app.querySelector( '#address-form #address' ).value );
 				this.cart.setTime('بدون زمان');
 				this.handleInvoice();
 			});
@@ -414,39 +414,39 @@ class App {
 			html2canvas(document.querySelector('#slimfood-app')).then(canvas => {
 				canvas.toBlob(blob => {
 					formData.append('invoiceImg', blob);
+					console.log('blob', blob )
+					this.formData = formData;
+
+					self.app.classList.add('loading');
+					const cartData = this.cart.getCart();
+
+					payFormData.forEach((item) => {
+						const value = getNestedValue(cartData, item.data);
+						if (value !== undefined) {
+							payForm.querySelector('input[name="' + item.input + '"]').value = value;
+						}
+					});
+
+					jQuery.ajax({
+						url: afzaliwpSfAJAX.ajaxUrl,
+						type: 'post',
+						dataType: 'json',
+						data: {
+							action: 'afzaliwp_add_to_cart',
+							nonce: afzaliwpSfAJAX.nonce,
+							products: this.cart.getProducts(),
+						},
+						success: function (response) {
+							self.toast('سبد خرید شما ساخته شد.', 'info');
+							self.goPaymentUrl();
+						},
+						error: function (error) {
+							self.app.classList.remove('loading');
+							console.error(error);
+							self.toast('خطایی پیش آمده است. لطفا مجددا تلاش کنید.', 'error');
+						},
+					});
 				});
-			});
-
-			this.formData = formData;
-
-			self.app.classList.add('loading');
-			const cartData = this.cart.getCart();
-
-			payFormData.forEach((item) => {
-				const value = getNestedValue(cartData, item.data);
-				if (value !== undefined) {
-					this.app.querySelector('input[name="' + item.input + '"]').value = value;
-				}
-			});
-
-			jQuery.ajax({
-				url: afzaliwpSfAJAX.ajaxUrl,
-				type: 'post',
-				dataType: 'json',
-				data: {
-					action: 'afzaliwp_add_to_cart',
-					nonce: afzaliwpSfAJAX.nonce,
-					products: this.cart.getProducts(),
-				},
-				success: function (response) {
-					self.toast('سبد خرید شما ساخته شد.', 'info');
-					self.goPaymentUrl();
-				},
-				error: function (error) {
-					self.app.classList.remove('loading');
-					console.error(error);
-					self.toast('خطایی پیش آمده است. لطفا مجددا تلاش کنید.', 'error');
-				},
 			});
 		});
 
@@ -468,6 +468,10 @@ class App {
 		this.formData.append('action', 'afzaliwp_create_order');
 		this.formData.append('nonce', afzaliwpSfAJAX.nonce);
 		this.formData.append('cart', JSON.stringify(this.cart.getCart()));
+		console.log('this.formData')
+		this.formData.forEach((value, key) => {
+			console.log(`Key: ${key}, Value: ${value}`);
+		});
 
 		$.ajax({
 			url: afzaliwpSfAJAX.ajaxUrl,
@@ -492,7 +496,7 @@ class App {
 				console.error(error);
 				self.toast('مشکلی پیش آمده است. لطفا مجدد تلاش کنید.', 'error');
 			},
-		}, 'image/jpeg');
+		}, 'image/png');
 
 	}
 

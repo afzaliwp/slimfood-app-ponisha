@@ -8,10 +8,10 @@ class Custom_Food_Meta {
 	public function __construct() {
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_box' ] );
 		add_action( 'woocommerce_admin_process_product_object', [ $this, 'save' ] );
-		add_action( 'woocommerce_admin_order_data_after_billing_address', [$this, 'custom_checkout_field_display_admin_order_meta'], 10, 1 );
+		add_action( 'woocommerce_admin_order_data_after_billing_address', [ $this, 'custom_checkout_field_display_admin_order_meta' ], 10, 1 );
 	}
 
-	function custom_checkout_field_display_admin_order_meta($order){
+	function custom_checkout_field_display_admin_order_meta( $order ) {
 		echo '<p><strong>شماره سفارش گیرنده:</strong> ' . get_post_meta( $order->get_id(), 'place_phone', true ) . '</p>';
 		echo '<p><strong>زمان ارسال:</strong> ' . get_post_meta( $order->get_id(), 'delivery_time', true ) . '</p>';
 	}
@@ -25,16 +25,24 @@ class Custom_Food_Meta {
 			'advanced',
 			'high'
 		);
+		add_meta_box(
+			'invoice_img',
+			__( 'Invoice Image', 'slimfood' ),
+			[ $this, 'render_invoice_img_meta_box_content' ],
+			'shop_order',
+			'advanced',
+			'high'
+		);
 	}
 
 	public function render_meta_box_content( $post ) {
 		wp_nonce_field( 'food_meta_box', 'food_meta_box_nonce' );
 
-		$calories     = get_post_meta( $post->ID, 'food_calories', true );
-		$fat          = get_post_meta( $post->ID, 'food_fat', true );
+		$calories = get_post_meta( $post->ID, 'food_calories', true );
+		$fat = get_post_meta( $post->ID, 'food_fat', true );
 		$carbohydrate = get_post_meta( $post->ID, 'food_carbohydrate', true );
-		$protein      = get_post_meta( $post->ID, 'food_protein', true );
-		$sugar        = get_post_meta( $post->ID, 'food_sugar', true );
+		$protein = get_post_meta( $post->ID, 'food_protein', true );
+		$sugar = get_post_meta( $post->ID, 'food_sugar', true );
 
 		// Display the form, using the current value.
 		echo '<label for="food_calories">';
@@ -64,14 +72,18 @@ class Custom_Food_Meta {
 
 	}
 
+	public function render_invoice_img_meta_box_content( $post ) {
+		echo sprintf( '<img src="%s" alt="" %s>', get_home_url() . '/wp-content/uploads/order-invoices/' . $post->ID . '/order.jpg', 'style="max-width: 100%; height: auto;"' );
+	}
+
 	public function save( $product ) {
-		if ( ! isset( $_POST[ 'food_meta_box_nonce' ] ) || ! wp_verify_nonce( $_POST[ 'food_meta_box_nonce' ], 'food_meta_box' ) ) {
+		if ( !isset( $_POST[ 'food_meta_box_nonce' ] ) || !wp_verify_nonce( $_POST[ 'food_meta_box_nonce' ], 'food_meta_box' ) ) {
 			return;
 		}
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
-		if ( ! current_user_can( 'edit_post', $product->get_id() ) ) {
+		if ( !current_user_can( 'edit_post', $product->get_id() ) ) {
 			return;
 		}
 
