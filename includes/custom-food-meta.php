@@ -9,6 +9,8 @@ class Custom_Food_Meta {
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_box' ] );
 		add_action( 'woocommerce_admin_process_product_object', [ $this, 'save' ] );
 		add_action( 'woocommerce_admin_order_data_after_billing_address', [ $this, 'custom_checkout_field_display_admin_order_meta' ], 10, 1 );
+		add_action( 'admin_init', [ $this, 'settings_fields' ] );
+
 	}
 
 	function custom_checkout_field_display_admin_order_meta( $order ) {
@@ -108,5 +110,20 @@ class Custom_Food_Meta {
 		}
 
 		$product->save_meta_data();
+	}
+
+	public function settings_fields() {
+		register_setting( 'general', 'melipayamak_api_address', 'esc_attr' );
+		add_settings_section( 'melipayamak_api_address_section', 'Melipayamak API Address', [ $this, 'melipayamak_api_address_section_callback' ], 'general' );
+		add_settings_field( 'melipayamak_api_address_field', '<label for="melipayamak_api_address">' . __( 'Melipayamak API Address', 'melipayamak_api_address' ) . '</label>', [ $this, 'melipayamak_api_address_field_callback' ], 'general', 'melipayamak_api_address_section' );
+	}
+
+	public function melipayamak_api_address_section_callback() {
+		echo '<p>Please enter the Melipayamak API address below:</p>';
+	}
+
+	public function melipayamak_api_address_field_callback() {
+		$melipayamak_api_address = get_option( 'melipayamak_api_address', '' );
+		echo '<input type="text" id="melipayamak_api_address" name="melipayamak_api_address" value="' . $melipayamak_api_address . '" />';
 	}
 }

@@ -6,14 +6,16 @@ defined( 'ABSPATH' ) || die();
 
 class SMS {
 
-	private $url = 'https://console.melipayamak.com/api/send/shared/65646f5909b042ecb74f52cd1beb2f69';
+	private $url;
 
 	private $patterns = [
 		'admin' => 162159,
 		'user'  => 162158,
 	];
 
-	public function __construct() {}
+	public function __construct() {
+		$this->url = get_option( 'melipayamak_api_address' );
+	}
 
 	/**
 	 * @param $to string
