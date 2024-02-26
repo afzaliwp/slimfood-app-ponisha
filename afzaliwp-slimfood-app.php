@@ -13,6 +13,7 @@ namespace AfzaliWP;
 use AfzaliWP\SlimFood\Includes\Custom_Food_Meta;
 use AfzaliWP\SlimFood\Includes\Process_Payment;
 use AfzaliWP\SlimFood\Includes\Sell_Form;
+use AfzaliWP\SlimFood\Includes\SMS;
 use Exception;
 
 defined( 'ABSPATH' ) || die();
